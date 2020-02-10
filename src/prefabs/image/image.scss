@@ -1,0 +1,37 @@
+@import '../../variables';
+
+// image styling variables
+
+$image-margin: 1px;
+$image-z-base: 1;
+$image-border-radius: 3px;
+$image-active-border-color: $base-color-primary !default;
+$image-default-border-width: 2px;
+$image-default-border-style: solid;
+
+// Styling for default image control.
+.mixer-image-container {
+  background-size: 100% 100%;
+  position: absolute;
+  top: $image-margin;
+  left: $image-margin;
+  right: $image-margin;
+  bottom: $image-margin;
+  z-index: $image-z-base;
+  user-select: none;
+  overflow: hidden;
+  border-width: $image-default-border-width;
+  border-style: $image-default-border-style;
+  border-color: transparent;
+  border-radius: $image-border-radius;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .mixer-image {
+    position: absolute;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+  }
+}
