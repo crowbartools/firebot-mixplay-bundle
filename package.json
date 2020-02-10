@@ -1,7 +1,7 @@
 {
-  "name": "firebot-extended-controls",
+  "name": "firebot-mixplay-bundle",
   "version": "0.1.0",
-  "description": "Extended MixPlay controls for Firebot",
+  "description": "The MixPlay Bundle for Firebot that contains an extended control set.",
   "scripts": {
     "start": "miix serve",
     "test": "tslint --type-check --project tsconfig.json \"src/**/*.{ts,tsx}\"",
