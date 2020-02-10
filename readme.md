@@ -1,3 +1,3 @@
-# interactive-preact-starter
+# Firebot MixPlay Bundle
 
-This starter code for building Interactive controls with a Preact base. For more information about getting started with this template, check out our [dev site](https://dev.mixer.com/reference/interactive_next/quickstart-preact.html).
+The MixPlay control bundle for Firebot that contains an extended control set on top of Mixer's default controls.
