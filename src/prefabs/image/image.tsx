@@ -18,8 +18,7 @@ function sanitizeCSS(styles: string) {
 }
 
 /**
- * Label is the default Interactive image control! It allows you
- * visually group sets of controls together, or give directions.
+ * Image is an extended Firebot control
  */
 @Mixer.Control({ kind: 'image' })
 export class Image extends PreactControl {
