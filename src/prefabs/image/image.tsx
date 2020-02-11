@@ -33,9 +33,9 @@ export class Image extends PreactControl {
   @Mixer.Input() public borderRadius: string;
 
   /**
-   * The border styles for an image, ie: "2px solid white".
+   * The border color for an image
    */
-  @Mixer.Input() public border: string;
+  @Mixer.Input() public borderColor: string;
 
   /**
    * A tooltip for the image.
@@ -62,7 +62,7 @@ export class Image extends PreactControl {
             ? `url('https://images.mixerusercontent.com/x/${this.imageUrl}')`
             : null,
           borderRadius: this.borderRadius && sanitizeCSS(this.borderRadius),
-          border:  this.border && sanitizeCSS(this.border)
+          border:  this.borderColor && `2px solid ${sanitizeCSS(this.borderColor)}`
         })}
       </style>
     );
