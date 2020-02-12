@@ -2,8 +2,8 @@ import * as Mixer from '@mixer/cdk-std';
 
 import { Label } from '../label/label';
 
-@Mixer.Control({ kind: 'statDisplay' })
-export class StatDisplay extends Label {
+@Mixer.Control({ kind: "viewerStat"})
+export class ViewerStat extends Label {
 
   /**
    * The default text in the stat label.
