@@ -10,6 +10,7 @@ import { Label as LabelControl } from './prefabs/label/label';
 import { Screen as ScreenControl } from './prefabs/screen/screen';
 import { TextBox as TextboxControl } from './prefabs/textbox/textbox';
 import { Image as ImageControl } from './prefabs/image/image';
+import { StatDisplay as StatDisplayControl } from './prefabs/stat-display/stat-display';
 
 // Import our custom CSS.
 require('./style.scss');
@@ -24,7 +25,8 @@ const registry = new Mixer.Registry().register(
   LabelControl,
   ScreenControl,
   TextboxControl,
-  ImageControl
+  ImageControl,
+  StatDisplayControl
 );
 
 // Do the thing!
