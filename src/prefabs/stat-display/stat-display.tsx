@@ -45,20 +45,17 @@ export class StatDisplay extends Label {
 
     let statValue = participant[this.statDataField];
 
-    if(statValue) {
-      this.text = statValue;
-      this.render();
-    }
+    this.text = statValue;
+    this.forceUpdate();
   };
 
   public componentDidMount() {
     this.text = this.defaultText;
-    this.getAndApplyStat(this.control.state.participant.props);
     this.control.state.participant.on('update', this.getAndApplyStat);
   }
 
   public componentDidUpdate() {
-    this.getAndApplyStat(this.control.state.participant.props);
+    //this.getAndApplyStat(this.control.state.participant.props);
   }
 
   public componentWillUnmount() {
