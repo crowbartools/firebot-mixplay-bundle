@@ -40,6 +40,11 @@ export class ViewerStat extends Label {
    */
   @Mixer.Input() public italic: boolean;
 
+  /**
+   * Justification of the label
+   */
+  @Mixer.Input({ kind: Mixer.InputKind.String }) public justification: "center" | "left" | "right" = "center";
+
   private getAndApplyStat = (participant: Mixer.IParticipant) => {
     if(participant == null || this.statDataField == null || this.statDataField === "") return;
 

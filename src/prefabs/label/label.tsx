@@ -1,7 +1,7 @@
 import * as Mixer from '@mixer/cdk-std';
 import { h } from 'preact';
 import { PreactControl } from '../../alchemy/preact';
-import { blockRule } from '../../alchemy/Style';
+import { blockRule, css } from '../../alchemy/Style';
 
 import './label.scss';
 
@@ -42,10 +42,26 @@ export class Label extends PreactControl {
    */
   @Mixer.Input() public italic: boolean;
 
+  /**
+   * Justification of the label
+   */
+  @Mixer.Input({ kind: Mixer.InputKind.String }) public justification: "center" | "left" | "right" = "center";
+
   public render() {
     const { controlID } = this.props;
-    return (
-      <div key={`control-${controlID}`} class="mixer-label-container" name={`control-${controlID}`}>
+
+    let justify: string;
+    if(this.justification === "left") {
+      justify = "flex-start";
+    } else if(this.justification === "right") {
+      justify = "flex-end";
+    } else {
+      justify = "center";
+    }
+    const style = css({ justifyContent: justify });
+
+    return (   
+      <div key={`control-${controlID}`} class="mixer-label-container" name={`control-${controlID}`} style={style}>
         {this.renderCustomStyleBlock()}
         <div class="mixer-label">{this.text}</div>
       </div>
