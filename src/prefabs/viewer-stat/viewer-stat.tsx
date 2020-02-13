@@ -54,8 +54,8 @@ export class ViewerStat extends Label {
     this.control.state.participant.on('update', this.getAndApplyStat);
   }
 
-  public componentDidUpdate() {
-    //this.getAndApplyStat(this.control.state.participant.props);
+  public componentWillReceiveProps() {
+    this.getAndApplyStat(this.control.state.participant.props);
   }
 
   public componentWillUnmount() {
