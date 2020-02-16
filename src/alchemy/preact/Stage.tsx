@@ -37,7 +37,7 @@ export class PreactStage extends Component<
   private getElixrTheme() {
     let globalObj: any = global;
     if(globalObj.chrome && globalObj.chrome.runtime && globalObj.chrome.runtime.sendMessage) {
-        globalObj.chrome.runtime.sendMessage("mleipcldocmdehobchkdjcbdlmkhljmh", { query: "getElixrTheme"}, (response) => {
+        globalObj.chrome.runtime.sendMessage("mmfbdcekojokeeonagpnlpoklelkcjon", { query: "getElixrTheme"}, (response) => {
             if(response && response.theme) {
                 this.setState({
                     ...this.state,
