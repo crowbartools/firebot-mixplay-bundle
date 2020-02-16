@@ -12,8 +12,21 @@ import { TextBox as TextboxControl } from './prefabs/textbox/textbox';
 import { Image as ImageControl } from './prefabs/image/image';
 import { ViewerStat as ViewerStatControl } from './prefabs/viewer-stat/viewer-stat';
 
+import { delegate } from 'tippy.js';
+
 // Import our custom CSS.
 require('./style.scss');
+
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/animations/shift-away-subtle.css';
+
+delegate( '#app', {
+  target: '[data-tippy-content]',
+  placement: "top",
+  hideOnClick: false,
+  duration: 175,
+  animation: "shift-away-subtle"
+});
 
 // The registry contains a list of all your custom scenes and buttons. You
 // should pass them in here so that we're aware of them!

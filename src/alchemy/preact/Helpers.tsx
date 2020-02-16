@@ -25,7 +25,7 @@ export class ResourceHolder<S, T extends Resource<S>> extends Component<
     this.setState({
       props: {
         ...this.state.props,
-        ...this.props.nest,
+        ...this.props.nest
       },
     });
   }
@@ -35,7 +35,7 @@ export class ResourceHolder<S, T extends Resource<S>> extends Component<
     this.setState({
       props: {
         ...this.state.props,
-        ...nextProps.nest,
+        ...nextProps.nest
       },
     });
   }

@@ -23,7 +23,7 @@ export abstract class PreactScene<T, S = {}> extends Component<SceneProps<S>, T 
     this.scene = props.resource;
     this.setState({
       ...(this.state as ISceneState),
-      containers: props.containers,
+      containers: props.containers
     });
   }
 

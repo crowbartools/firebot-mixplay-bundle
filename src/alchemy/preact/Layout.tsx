@@ -6,7 +6,6 @@ import { display, IControlDescriptor, ISettings, Layout } from '@mixer/cdk-std';
 import { Component, h } from 'preact';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { debounceTime, startWith } from 'rxjs/operators';
-import * as tippy from 'tippy.js';
 
 import { log } from '../Log';
 import { MControl, MScene } from '../State';
@@ -14,6 +13,8 @@ import { css, RuleSet } from '../Style';
 import { untilUnmount } from '../Toolbox';
 import { PreactControl } from './Control';
 import { ResourceHolder } from './Helpers';
+
+import * as Firebot from '../FirebotState';
 
 export interface IFixedGridState {
   activeGrid: number;
@@ -86,6 +87,10 @@ export class FixedGridLayout extends Component<ILayoutOptions, IFixedGridState> 
    */
   private previousVideoHeight: number;
 
+  private previousSidebarStatus: boolean;
+
+  private previousGridEnabled = true;
+
   public componentWillMount() {
     Layout.gridLayouts.forEach((layout, i) => {
       const match = window.matchMedia(`(min-width: ${layout.minWidth}px)`);
@@ -98,6 +103,13 @@ export class FixedGridLayout extends Component<ILayoutOptions, IFixedGridState> 
 
       this.unregisterListeners.push(() => match.removeListener(fn));
     });
+    Firebot.world.subscribe(_ => {
+      this.refresh();
+    });
+
+    Firebot.state.subscribe(firebotState => {
+      this.refresh();
+    })
   }
 
   public componentDidMount() {
@@ -105,7 +117,6 @@ export class FixedGridLayout extends Component<ILayoutOptions, IFixedGridState> 
   }
 
   public componentWillUnmount() {
-    this.destroyTippy();
     this.unregisterListeners.forEach(l => l());
   }
 
@@ -117,25 +128,39 @@ export class FixedGridLayout extends Component<ILayoutOptions, IFixedGridState> 
    * Implements Layout.refresh()
    */
   public refresh() {
+
+    let firebotState = Firebot.state.getValue();
+    let gridEnabled = firebotState && firebotState.gridControls;
+
+    let world = Firebot.world.getValue();
+    let sidebarEnabled = world && world.sidebar && world.sidebar.enabled;
+
     const { height } = this.getGridPixelSize();
-    if (!this.props.settings.placesVideo || height === this.previousVideoHeight) {
+    if ((!this.props.settings.placesVideo || height === this.previousVideoHeight) 
+      && sidebarEnabled === this.previousSidebarStatus && gridEnabled === this.previousGridEnabled) {
       return;
     }
 
     this.previousVideoHeight = height;
+    this.previousSidebarStatus = sidebarEnabled;
+    this.previousGridEnabled = gridEnabled;
 
     const padding = FixedGridLayout.videoPadding;
     display.moveVideo({
       top: padding,
       left: padding,
-      right: padding,
-      bottom: height + padding,
+      right: padding + (sidebarEnabled ? 40 : 0),
+      bottom: padding + (gridEnabled ? height : 0),
     });
-    this.renderTippy();
+
+    this.forceUpdate();
   }
 
   public render() {
     const { width, height, multiplier } = this.getGridPixelSize();
+
+    let firebotState = Firebot.state.getValue();
+    let gridEnabled = firebotState && firebotState.gridControls;
 
     return (
       <div
@@ -150,7 +175,7 @@ export class FixedGridLayout extends Component<ILayoutOptions, IFixedGridState> 
           marginBottom: this.props.settings.placesVideo ? 0 : height / -2,
         })}
       >
-        {this.props.scene.listControls().map(control => {
+        {gridEnabled && this.props.scene.listControls().map(control => {
           if (control.props.kind !== 'screen') {
             control.grid = this.state.activeGrid;
             return (
@@ -225,8 +250,7 @@ export class FixedGridLayout extends Component<ILayoutOptions, IFixedGridState> 
   }
 
   private renderTippy = (): void => {
-    this.destroyTippy();
-    const tip = tippy(`[name^="control"] > div`, {
+    /*const tip = tippy(`[name^="control"] > div`, {
       appendTo: document.querySelector('.alchemy-grid-layout'),
       placement: 'bottom',
       hideOnClick: false,
@@ -243,17 +267,7 @@ export class FixedGridLayout extends Component<ILayoutOptions, IFixedGridState> 
           },
         },
       },
-    });
-    this.setState({
-      ...this.state,
-      tip,
-    });
-  };
-
-  private destroyTippy = (): void => {
-    if (this.state.tip) {
-      this.state.tip.destroyAll();
-    }
+    });*/
   };
 }
 

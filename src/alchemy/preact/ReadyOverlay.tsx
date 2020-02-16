@@ -18,7 +18,7 @@ export interface IReadyProperties {
 }
 
 const defaultReadyProperties: IReadyProperties = Object.freeze({
-  message: 'Waiting for the game to be ready...',
+  message: 'Waiting for Firebot to be ready...',
   collapsedHeight: 100,
   style: {},
 });

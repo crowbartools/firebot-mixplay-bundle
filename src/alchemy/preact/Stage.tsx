@@ -5,6 +5,8 @@ import { MScene, State } from '../State';
 import { ResourceHolder } from './Helpers';
 import { ReadyOverlayComponent } from './ReadyOverlay';
 import { PreactScene } from './Scene';
+import * as Firebot from '../FirebotState';
+import { Sidebar } from '../../sidebar/sidebar'
 
 /**
  * PreactStage is the bootstrap component for the interactive integration.
@@ -13,7 +15,7 @@ import { PreactScene } from './Scene';
  */
 export class PreactStage extends Component<
   { registry: Mixer.Registry },
-  { scene: MScene; isReady: boolean; world: any }
+  { scene: MScene; isReady: boolean; world: any, theme: string }
 > {
   private interactive: State;
 
@@ -22,9 +24,41 @@ export class PreactStage extends Component<
 
     i.participant.on('update', ev => this.updateScene(i.participant.group.sceneID));
     i.participant.on('groupUpdate', ev => this.updateScene(ev.sceneID));
-    i.world.subscribe(world => this.setState({ ...this.state, world }));
+    i.world.subscribe(world => {
+      Firebot.world.next(world);
+      this.setState({ ...this.state, world });
+      this.forceUpdate();
+    });
     i.isReady.subscribe(isReady => this.setState({ ...this.state, isReady }));
+
+    this.getElixrTheme();
   }
+
+  private getElixrTheme() {
+    let globalObj: any = global;
+    if(globalObj.chrome && globalObj.chrome.runtime && globalObj.chrome.runtime.sendMessage) {
+        globalObj.chrome.runtime.sendMessage("mleipcldocmdehobchkdjcbdlmkhljmh", { query: "getElixrTheme"}, (response) => {
+            if(response && response.theme) {
+                this.setState({
+                    ...this.state,
+                    theme: response.theme
+                });
+            }
+        });
+    } else if(globalObj.browser && globalObj.browser.runtime && globalObj.browser.runtime.sendMessage) {
+        globalObj.browser.runtime.sendMessage("mixrelixr@gmail.com", { query: "getElixrTheme"})
+            .then(response => {
+                    if(response && response.theme) {
+                        this.setState({
+                            ...this.state,
+                            theme: response.theme
+                        });
+                    }
+                }, 
+                () => {}
+            );
+    }
+}
 
   public render() {
     if (!this.interactive || !this.state.isReady) {
@@ -37,7 +71,12 @@ export class PreactStage extends Component<
     const platform = Mixer.display.getSettings().platform;
 
     return (
-      <div class={`stage platform-${platform}`}>{this.getSceneComponent(this.state.scene)}</div>
+      <div>
+        
+        {this.state.world && this.state.world.sidebar && this.state.world.sidebar.enabled &&
+          <Sidebar theme={this.state.theme}></Sidebar>}
+        <div class={`stage platform-${platform}`}>{this.getSceneComponent(this.state.scene)}</div>
+      </div>
     );
   }
 
@@ -55,6 +94,6 @@ export class PreactStage extends Component<
    */
   protected getSceneComponent(scene: MScene) {
     const ctor = scene.descriptor().ctor as any;
-    return <ResourceHolder resource={scene} component={ctor} />;
+    return <ResourceHolder resource={scene} component={ctor}/>;
   }
 }

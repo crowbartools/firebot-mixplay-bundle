@@ -158,23 +158,6 @@ $button-z-tooltip: $button-z-cost + 1;
   }
 }
 
-.tippy-tooltip {
-  background: $button-tooltip-background;
-  font-weight: normal;
-  color: #fff;
-  padding: 3px 8px;
-  border-radius: 3px;
-  font-size: 0.9em;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-$positions: top bottom;
-@each $pos in $positions {
-  .tippy-popper[x-placement^=#{$pos}] .tippy-arrow {
-    border-#{$pos}: 7px solid $button-tooltip-background;
-  }
-}
-
 // Styling for the cooldown that overlays custom controls.
 .mixer-cooldown {
   @include layout-center-contents();

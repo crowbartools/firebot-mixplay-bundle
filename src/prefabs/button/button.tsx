@@ -1,6 +1,8 @@
 import * as Mixer from '@mixer/cdk-std';
 import { Component, h } from 'preact';
 
+import { delegate } from 'tippy.js'
+
 import { gamepad } from '../../alchemy/Gamepad';
 import { CoolDown, PreactControl, SparkPill } from '../../alchemy/preact/index';
 import { blockRule, classes, css } from '../../alchemy/Style';
@@ -16,6 +18,7 @@ function sanitizeCSS(styles: string) {
   if (index >= 0) {
     newStyles = newStyles.substr(0, index);
   }
+
   return newStyles;
 }
 
@@ -162,6 +165,14 @@ export class Button extends PreactControl<{
       ...this.state,
       cooldown: this.cooldown - Date.now() > 0,
     });
+
+    // update tooltip
+    const { controlID } = this.props;
+    let element: any = document.querySelector(`[name='control-${controlID}'] > .mixer-button`);
+    if(element && element._tippy) {
+      //console.log(element._tippy);
+      element._tippy.setContent(this.tooltip);
+    }
   }
 
   public componentWillUnmount() {
@@ -187,8 +198,8 @@ export class Button extends PreactControl<{
           onMouseDown={this.mousedown}
           onMouseUp={this.mouseup}
           onMouseLeave={this.mouseleave}
-          title={this.tooltip || ''}
-          data-tippy-arrow
+          data-tippy-content={this.tooltip || ''}
+          data-tippy-arrow="true"
         >
           <div class="state" />
           <div

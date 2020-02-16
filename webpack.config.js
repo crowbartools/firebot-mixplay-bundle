@@ -20,7 +20,8 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
  * isProduction is from an environment variable. It's automatically set
  * when you run `miix build.`
  */
-const isProduction = process.env.ENV === 'production';
+//const isProduction = process.env.ENV === 'production';
+const isProduction = true;
 
 const plugins = [
   // The CopyPlugin copies your static assets into the build directory.
@@ -102,6 +103,16 @@ module.exports = {
             query: { minimize: isProduction, url: false },
           },
           'sass-loader',
+        ],
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            query: { minimize: isProduction, url: false },
+          },
         ],
       },
       // Allow importing html and svg files directly, for the HtmlControl.
