@@ -133,7 +133,7 @@ export class FixedGridLayout extends Component<ILayoutOptions, IFixedGridState> 
     let gridEnabled = firebotState && firebotState.gridControls;
 
     let world = Firebot.world.getValue();
-    let sidebarEnabled = world && world.sidebar && world.sidebar.enabled;
+    let sidebarEnabled = world && world.sidebar && world.sidebar.settings.enabled;
 
     const { height } = this.getGridPixelSize();
     if ((!this.props.settings.placesVideo || height === this.previousVideoHeight) 

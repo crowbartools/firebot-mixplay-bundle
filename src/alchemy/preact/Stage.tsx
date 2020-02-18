@@ -73,7 +73,7 @@ export class PreactStage extends Component<
     return (
       <div>
         
-        {this.state.world && this.state.world.sidebar && this.state.world.sidebar.enabled &&
+        {this.state.world && this.state.world.sidebar && this.state.world.sidebar.settings.enabled &&
           <Sidebar theme={this.state.theme}></Sidebar>}
         <div class={`stage platform-${platform}`}>{this.getSceneComponent(this.state.scene)}</div>
       </div>

@@ -2,7 +2,9 @@ import { EventEmitter } from 'eventemitter3';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export interface ISidebarConfig {
-    enabled: boolean;
+    settings: {
+        enabled: boolean
+    },
     streamer: {
         username: string,
         userId: number,
